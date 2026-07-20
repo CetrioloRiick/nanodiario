@@ -1,7 +1,8 @@
 function fish_command_not_found
     set -l len (count $argv)
-    if [ len > 5 ]
+    if test $len -gt 5
         diario $argv
-        commandline ""
+    else
+        echo "fish: Unknown command: '$argv[1]'" >&2
     end
 end
