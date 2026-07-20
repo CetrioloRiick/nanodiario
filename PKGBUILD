@@ -7,8 +7,9 @@ url="https://github.com/CetrioloRiick/nanodiario"
 license=("GPL-3.0-or-later")
 depends=('bash' 'nano')
 optdepends=('fish: smart integration with shell')
-source=("diario")
-sha256sums=('96e34692ae347a68a8608e60ac9df680e9ef8adef26d596d9235234b2f773d81' 'SKIP')
+source=("diario" "fish_command_not_found.fish")
+sha256sums=('96e34692ae347a68a8608e60ac9df680e9ef8adef26d596d9235234b2f773d81'
+            '681b5513a47b0730cebf21a194d9f61484e1b1b1750a2e885789552c6ac60b49')
 
 package() {
   install -Dm755 "${srcdir}/diario" "${pkgdir}/usr/bin/diario"
