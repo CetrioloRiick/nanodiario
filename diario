@@ -11,14 +11,14 @@ alias nanno="nano --softwrap --atblanks"
 
 write(){
     mkdir -p $MONTH_DIR
-    printf "\n\n%s%s" "$(date +'%H:%M - ')" "$1" >> $TODAY_FILE
+    printf "\n%s%s" "$(date +'%H:%M - ')" "$1" >> $TODAY_FILE
     nanno +-2,-1 $TODAY_FILE
 }
 
 read(){
     for el in "$MONTH_DIR"*
     do
-        printf "========%s=======\n" "$el"
+        printf "========%s========" "$el"
         cat "$el"
         printf '\n\n'
     done
