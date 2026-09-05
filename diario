@@ -2,18 +2,28 @@
 set -e
 
 if [ -z "$DIARIO_DIR" ]; then
-	DIARIO_DIR=$HOME/Documents/Diario/
+    DIARIO_DIR=$HOME/Documents/Diario/
 fi
-
-TODAY_DIR="$DIARIO_DIR`date +"%Y.%m"`/"
+MONTH_DIR=$DIARIO_DIR$(date +'%Y.%m')/
+TODAY_FILE=$MONTH_DIR$(date +'%d.txt')
 
 alias nanno="nano --softwrap --atblanks"
 
 write(){
-    mkdir -p $TODAY_DIR
-    printf "\n\n`date +'%H:%M - '`$2" >>  $TODAY_DIR`date +"%d.txt"`
-    nanno +-2,-1 $TODAY_DIR`date +"%d.txt"`
+    mkdir -p $MONTH_DIR
+    printf "\n\n%s%s" "$(date +'%H:%M - ')" "$1" >> $TODAY_FILE
+    nanno +-2,-1 $TODAY_FILE
 }
+
+read(){
+    for el in "$MONTH_DIR"*
+    do
+        printf "========%s=======\n" "$el"
+        cat "$el"
+        printf '\n\n'
+    done
+}
+
 if [ -z "$1" ]; then
     write
     exit 0
@@ -21,18 +31,12 @@ elif [ "x$1" = "x-h" ] || [ "x$1" = "x--help" ]; then
     echo "Usage:"
     exit 0
 elif [ "x$1" = "x-r" ] || [ "x$1" = "x--read" ]; then
-    for el in $TODAY_DIR*
-    do
-        printf "========$el======="
-        cat $el
-        printf '\n\n'
-    done
+    read
     exit 0
 elif [ "x$1" = "x-w" ] || [ "x$1" = "x--write" ]; then
-    write $*   
+    shift
+    write "$*"   
     exit 0
+else
+    write "$*"
 fi
-
-
-
-
