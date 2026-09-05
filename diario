@@ -1,11 +1,38 @@
 #!/bin/sh
 set -e
 
-alias nanno="nano --softwrap --atblanks"
-DIARIO_DIR="$HOME/Documents/Diario/"
+if [ -z "$DIARIO_DIR" ]; then
+	DIARIO_DIR=$HOME/Documents/Diario/
+fi
 
 TODAY_DIR="$DIARIO_DIR`date +"%Y.%m"`/"
-mkdir -p $TODAY_DIR
-echo "
-`date +'%H:%M - '`$*" >>  $TODAY_DIR`date +"%d.txt"`
-nanno +-2,-1 $TODAY_DIR`date +"%d.txt"`
+
+alias nanno="nano --softwrap --atblanks"
+
+write(){
+    mkdir -p $TODAY_DIR
+    printf "\n\n`date +'%H:%M - '`$*" >>  $TODAY_DIR`date +"%d.txt"`
+    nanno +-2,-1 $TODAY_DIR`date +"%d.txt"`
+}
+if [ -z "$1" ]; then
+    write
+    exit 0
+elif [ "x$1" = "x-h" ] || [ "x$1" = "x--help" ]; then
+    echo "Usage:"
+    exit 0
+elif [ "x$1" = "x-r" ] || [ "x$1" = "x--read" ]; then
+    for el in $TODAY_DIR*
+    do
+        printf "========$el======="
+        cat $el
+        printf '\n\n'
+    done
+    exit 0
+elif [ "x$1" = "x-w" ] || [ "x$1" = "x--write" ]; then
+    write $@   
+    exit 0
+fi
+
+
+
+
