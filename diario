@@ -11,7 +11,7 @@ alias nanno="nano --softwrap --atblanks"
 
 write(){
     mkdir -p $TODAY_DIR
-    printf "\n\n`date +'%H:%M - '`$*" >>  $TODAY_DIR`date +"%d.txt"`
+    printf "\n\n`date +'%H:%M - '`$2" >>  $TODAY_DIR`date +"%d.txt"`
     nanno +-2,-1 $TODAY_DIR`date +"%d.txt"`
 }
 if [ -z "$1" ]; then
@@ -29,7 +29,7 @@ elif [ "x$1" = "x-r" ] || [ "x$1" = "x--read" ]; then
     done
     exit 0
 elif [ "x$1" = "x-w" ] || [ "x$1" = "x--write" ]; then
-    write $@   
+    write $*   
     exit 0
 fi
 
