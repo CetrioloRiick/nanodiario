@@ -4,18 +4,20 @@ set -e
 if [ -z "$DIARIO_DIR" ]; then
     DIARIO_DIR=$HOME/Documents/Diario/
 fi
-MONTH_DIR=$DIARIO_DIR$(date +'%Y.%m')/
-TODAY_FILE=$MONTH_DIR$(date +'%d.txt')
-
 alias nanno="nano --softwrap --atblanks"
 
 write(){
+    echo "$1"
+    MONTH_DIR=$DIARIO_DIR$(date +'%Y.%m')/
+    TODAY_FILE=$MONTH_DIR$(date +'%d.txt')
     mkdir -p $MONTH_DIR
     printf "\n%s%s" "$(date +'%H:%M - ')" "$1" >> $TODAY_FILE
     nanno +-2,-1 $TODAY_FILE
 }
 
-read(){
+read1(){
+    echo "$1"
+    MONTH_DIR=$DIARIO_DIR$(date --date="$1" +'%Y.%m')/
     for el in "$MONTH_DIR"*
     do
         printf "========%s========" "$el"
@@ -24,14 +26,32 @@ read(){
     done
 }
 
+help(){
+    echo 'Usage: diario [OPTION] [TEXT...]
+
+A simple plain-text diary, one file per day under $DIARIO_DIR (default:
+$HOME/Documents/Diario/AAAA.MM/GG.txt).
+
+With no option, TEXT is appended as a new entry (same as -w).
+
+  -w, --write TEXT    Write TEXT as a new entry for today.
+  -r, --read DATE     Show entries for DATE (any `date --date=` string,
+                      e.g. "2024-05", "yesterday", "last month").
+  -h, --help          Show this help.
+
+Env:
+  DIARIO_DIR          Root directory of the diary.'
+}
+
 if [ -z "$1" ]; then
     write
     exit 0
 elif [ "x$1" = "x-h" ] || [ "x$1" = "x--help" ]; then
-    echo "Usage:"
+    help
     exit 0
 elif [ "x$1" = "x-r" ] || [ "x$1" = "x--read" ]; then
-    read
+    shift
+    read1 "$*"
     exit 0
 elif [ "x$1" = "x-w" ] || [ "x$1" = "x--write" ]; then
     shift
