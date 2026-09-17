@@ -8,7 +8,7 @@ license=("GPL-3.0-or-later")
 depends=('bash' 'nano')
 optdepends=('fish: smart integration with shell')
 source=("diario" "fish_command_not_found.fish")
-sha256sums=('d02188ed356dbd0f036ab6c34eba08a7146fe66a3b457623d4869a0f3e403ac8'
+sha256sums=('0e50cae424afd931bc0b622b85cd2fa6b161a6c8e432feab9794fbf46a80dcf1'
             '901c7df84d1e98cf7da2b523a831b9fb436ec734cf8d8d1fccfc6bfb4d1de420')
 
 package() {
