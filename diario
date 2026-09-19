@@ -7,7 +7,6 @@ fi
 alias nanno="nano --softwrap --atblanks"
 
 write(){
-    echo "$1"
     MONTH_DIR=$DIARIO_DIR$(date +'%Y.%m')/
     TODAY_FILE=$MONTH_DIR$(date +'%d.txt')
     mkdir -p $MONTH_DIR
@@ -16,7 +15,6 @@ write(){
 }
 
 read1(){
-    echo "$1"
     MONTH_DIR=$DIARIO_DIR$(date --date="$1" +'%Y.%m')/
     for el in "$MONTH_DIR"*
     do
